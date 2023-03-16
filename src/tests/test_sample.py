@@ -1,5 +1,7 @@
 from category import Category
 from pytest import *
+from unittest.mock import MagicMock
+
 # category has class type
 def test_category_class():
     c = Category("bob")
@@ -172,4 +174,42 @@ def test_category_transfer_return_false():
     z = Category("clothes")
     assert c.transfer(30, z) == False
 
+# check_funds should accept an amount as an argument
+def test_category_check_funds_amount():
+    c = Category("bob")
+
+    with raises(TypeError):
+        c.check_funds()
+
+# check funds returns false if amount is less than balance, true otherwise
+def test_category_check_funds_return_false():
+    c = Category("food")
+    c.deposit(50)
+    assert c.check_funds(30) == False
+
+def test_category_check_funds_return_true():
+    c = Category("food")
+    c.deposit(50)
+    assert c.check_funds(60) == True
+
+# withdraw method calls check_funds
+def test_category_withdraw_call_check_funds():
+    c = Category("food")
+    c.check_funds = MagicMock()
+    c.withdraw(50)
+    # MagicMock is a copy of whatever is assigned to it, so I use it to copy 
+    #   my check_funds method. Then MagicMock has its own methods to test if
+    #   the original method was called. I'm checking it was only called once 
+    #   and with the value 50 passed through.
+    c.check_funds.assert_called_once_with(50)
+
+# deposit method calls check_funds
+def test_category_deposit_call_check_funds():
+    c = Category("food")
+    z = Category("clothes")
+    c.check_funds = MagicMock()
+    c.deposit(50)
+    c.transfer(50, z)
+    c.check_funds.assert_called_once_with(50)
+    
 # You can write tests here or create new files in this directory with the name test_[something].py

@@ -10,7 +10,7 @@ class Category():
         
 
     def withdraw(self, amount, description = " "):
-        if amount > self.funds:
+        if self.check_funds(amount):
             return False
         else:
             self.funds -= amount
@@ -26,7 +26,10 @@ class Category():
             return True
         else: 
             return False
-            
-    def check_funds(self):
-        pass
+
+    def check_funds(self, amount):
+        if self.funds >= amount:
+            return False
+        else:
+            return True
 
