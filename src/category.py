@@ -20,8 +20,13 @@ class Category():
     def get_balance(self):
         return self.funds
 
-    def transfer(self):
-        pass
-
+    def transfer(self, amount, target_category):
+        if self.withdraw(amount, f"Transfer to {target_category.name}") == True:
+            target_category.deposit(amount, f"Transfer from {self.name}")
+            return True
+        else: 
+            return False
+            
     def check_funds(self):
         pass
+

@@ -130,4 +130,46 @@ def test_category_get_balance_return():
     c.withdraw(50)
     assert c.get_balance() == 55
 
+# transfer method accepts amount and another budget category
+def test_category_transfer_amount_category():
+    c = Category("bob")
+
+    with raises(TypeError):
+        c.transfer()
+
+# transfer method should call withdraw() with amount and desc. of "Transfer to [target_category]"
+def test_category_transfer_withdraw_call():
+    c = Category("food")
+    z = Category("clothes")
+    c.deposit(30)
+    c.transfer(30, z)
+    assert c.ledger[1] == {"amount": -30, "description": f"Transfer to {z.name}"}
+
+# transfer method should deposit into target_category with amount and desc of "Transfer from [source_category]"  
+def test_category_transfer_deposit_call():
+    c = Category("food")
+    z = Category("clothes")
+    c.deposit(30)
+    c.transfer(30, z)
+    assert z.ledger[0] == {"amount": 30, "description": f"Transfer from {c.name}"}
+
+# if not enough funds, transfer does neither withdraw or deposit
+def test_category_transfer_lack_funds():
+    c = Category("food")
+    z = Category("clothes")
+    c.transfer(30, z)
+    assert (c.ledger == [] and z.ledger == [])
+
+# transfer method should return True if transfer took place, else false
+def test_category_transfer_return_true():
+    c = Category("food")
+    z = Category("clothes")
+    c.deposit(30)
+    assert c.transfer(30, z) == True
+    
+def test_category_transfer_return_false():
+    c = Category("food")
+    z = Category("clothes")
+    assert c.transfer(30, z) == False
+
 # You can write tests here or create new files in this directory with the name test_[something].py
