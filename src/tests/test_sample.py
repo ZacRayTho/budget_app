@@ -120,4 +120,14 @@ def test_category_withdraw_return_true():
     c = Category("bob")
     c.deposit(20)
     assert c.withdraw(10, "fish") == True
+
+# get balance method returns current balance of category
+def test_category_get_balance_return():
+    c = Category("bob")
+    c.deposit(50, "fish")
+    c.withdraw(20)
+    c.deposit(75)
+    c.withdraw(50)
+    assert c.get_balance() == 55
+
 # You can write tests here or create new files in this directory with the name test_[something].py

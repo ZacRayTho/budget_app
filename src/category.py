@@ -13,11 +13,12 @@ class Category():
         if amount > self.funds:
             return False
         else:
+            self.funds -= amount
             self.ledger.append({"amount": 0 - amount, "description": description})
             return True
-            
+
     def get_balance(self):
-        pass
+        return self.funds
 
     def transfer(self):
         pass
