@@ -2,15 +2,20 @@ class Category():
     def __init__(self, name):
         self.name = name
         self.ledger = []
+        self.funds = 0
 
-    def deposit(self, amount, description):
+    def deposit(self, amount, description = " "):
+        self.funds += amount
         self.ledger.append({"amount": amount, "description": description})
-        pass
         
 
-    def withdraw(self):
-        pass
-
+    def withdraw(self, amount, description = " "):
+        if amount > self.funds:
+            return False
+        else:
+            self.ledger.append({"amount": 0 - amount, "description": description})
+            return True
+            
     def get_balance(self):
         pass
 

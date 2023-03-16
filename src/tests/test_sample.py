@@ -59,4 +59,65 @@ def test_category_deposit_amount_description():
     with raises(TypeError):
         c.deposit()
 
+# if deposit doesn't get a description , it defaults to empty
+def test_category_deposit_description_defaults():
+    c = Category("bob")
+    c.deposit(10)
+    assert c.ledger[0]["description"] == " "
+
+# deposit method appends object to ledger list
+def test_category_ledger_deposit_append():
+    c = Category("bob")
+    c.deposit(10, "fish")
+    assert c.ledger[0] == {"amount": 10, "description": "fish"}
+
+# withdraw method accepts an amount and description 
+def test_category_withdraw_amount_description():
+    c = Category("bob")
+
+    with raises(TypeError):
+        c.withdraw()
+
+# if withdraw doesn't get a description , it defaults to empty
+def test_category_withdraw_description_defaults():
+    c = Category("bob")
+    c.deposit(10, "fish")
+    c.withdraw(10)
+    assert c.ledger[1]["description"] == " "
+
+# withdraw method appends object to ledger list
+def test_category_ledger_withdraw_append():
+    c = Category("bob")
+    c.deposit(10, "fish")
+    c.withdraw(10, "fish")
+    assert c.ledger[1] == {"amount": -10, "description": "fish"}
+
+# withdraw method stores negative number
+def test_category_ledger_withdraw_negative_value():
+    c = Category("bob")
+    c.deposit(10, "fish")
+    c.withdraw(10, "fish")
+    assert c.ledger[1]["amount"] < 0
+
+# if withdraw method is more than fund, don't add to ledger
+def test_category_withdraw_over_funds():
+    c = Category("bob")
+    c.withdraw(10, "fish")
+    assert c.ledger == []
+
+# deposit method should increase fund variable
+def test_category_deposit_funds_increase():
+    c = Category("bob")
+    c.deposit(10, "fish")
+    assert c.funds > 0
+
+# withdraw method returns True if append to ledger happened, else False
+def test_category_withdraw_return_false():
+    c = Category("bob")
+    assert c.withdraw(10, "fish") == False
+    
+def test_category_withdraw_return_true():
+    c = Category("bob")
+    c.deposit(20)
+    assert c.withdraw(10, "fish") == True
 # You can write tests here or create new files in this directory with the name test_[something].py
