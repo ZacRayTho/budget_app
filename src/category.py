@@ -1,8 +1,8 @@
 class Category():
     def __init__(self, name):
         self.name = name
-        ledger = []
-        
+        self.ledger = []
+
         pass
 
     def deposit(self):
