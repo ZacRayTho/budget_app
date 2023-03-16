@@ -211,5 +211,20 @@ def test_category_deposit_call_check_funds():
     c.deposit(50)
     c.transfer(50, z)
     c.check_funds.assert_called_once_with(50)
-    
+
+# __str__ method exists (can't explain but works, without type(), test passes 
+#   with or without __str__ method)
+def test_category_printed():
+    c = Category("food")
+    assert type(c).__str__ is not object.__str__
+
+# __str__ prints title line where name of category is centered in lines of *'s 
+#???
+# __str__ prints list of items in the ledger
+#???
+#__str__ prints line displaying category total
+# def test_category_print_total():
+#     c = Category("food")
+#     assert print(c.__str__()) 
+
 # You can write tests here or create new files in this directory with the name test_[something].py

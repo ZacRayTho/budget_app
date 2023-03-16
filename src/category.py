@@ -33,3 +33,9 @@ class Category():
         else:
             return True
 
+    def __str__(self):
+        print(f"""**************{self.name}**************""")
+        for x in self.ledger:
+            print(f"{x['description']:<10} {x['amount']:>20}")
+        return f"Total: {self.funds}" 
+
