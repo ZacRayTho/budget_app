@@ -3,10 +3,10 @@ class Category():
         self.name = name
         self.ledger = []
 
+    def deposit(self, amount, description):
+        self.ledger.append({"amount": amount, "description": description})
         pass
-
-    def deposit(self):
-        pass
+        
 
     def withdraw(self):
         pass
